@@ -55,6 +55,17 @@ describe Doyoubuzz::Showcase do
       end
     end
 
+
+    it "should handle array responses" do
+      VCR.use_cassette("good_call") do
+        res = showcase.get('/tags')
+
+        res.should be_a Array
+        res.first.should be_a Hashie::Mash
+      end
+    end
+
+
     it "should raise an exception on a failed call" do
       VCR.use_cassette("failed_call") do
         expect{ res = showcase.get('/users') }.to raise_error do |error|

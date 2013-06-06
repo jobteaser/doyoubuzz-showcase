@@ -13,7 +13,7 @@ The `doyoubuzz-showcase` gem is a thin ruby wrapper for the DoYouBuzz Showcase A
 
 Add this line to your application's Gemfile:
 
-    gem 'doyoubuzz-showcase', :github => 'git://github.com/MrRuru/doyoubuzz-showcase.git'
+    gem 'doyoubuzz-showcase', :git => 'git://github.com/MrRuru/doyoubuzz-showcase.git'
 
 And then execute:
 

@@ -32,11 +32,17 @@ module Doyoubuzz
 
     # Process the HTTParty response, checking for errors
     def process_response(res)
-      if res['error']
+      if !res.success?
         raise HTTParty::ResponseError.new(res.response)
       end
 
-      return Hashie::Mash.new(res)
+      if res.is_a? Hash
+        return Hashie::Mash.new(res)
+      elsif res.is_a? Array
+        return res.map{|item| Hashie::Mash.new(item)}
+      else
+        return res
+      end
     end
 
 
