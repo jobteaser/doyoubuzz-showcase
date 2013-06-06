@@ -5,11 +5,11 @@ require 'doyoubuzz/showcase/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "doyoubuzz-showcase"
-  spec.version       = Doyoubuzz::Showcase::VERSION
+  spec.version       = Doyoubuzz::VERSION
   spec.authors       = ["David RUYER"]
   spec.email         = ["david.ruyer@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Wrapper around the DoYouBuzz showcase API}
+  spec.summary       = %q{Wrapper around the DoYouBuzz showcase API}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -20,4 +20,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+
+  spec.add_dependency "httparty", "~> 0.11"
 end

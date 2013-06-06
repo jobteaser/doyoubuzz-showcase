@@ -1,0 +1,30 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://showcase.doyoubuzz.com/api/v1/users?apikey=an_api_key&hash=11a68a1bb9e23c681438efb714c9ad4d&timestamp=1370534334
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 06 Jun 2013 15:57:15 GMT
+      Server:
+      - Apache/2.2
+      Cache-Control:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '{"users":{"current_page_number":1,"num_items_per_page":20,"items":[{"username":"lvrmterjwea","email":"cuslijmmv@ocgfwjcuv.com","firstname":"nbrnoqn","lastname":"wfjtjnsxy","id":409632},{"username":"pnlsrwxqreh","email":"twbqztcml@qoyowwufj.com","firstname":"ydgnetr","lastname":"nthsuwmbw","id":683507},{"username":"xamfolxvmvw","email":"srcriwspx@kcbidtybg.com","firstname":"dikgtqf","lastname":"uqvipekkw","id":777742},{"username":"purrnerwsoi","email":"pbgqdrxgy@uwjvjdrae.com","firstname":"qunnwet","lastname":"kalpcmsct","id":489468},{"username":"jzagsqyhiay","email":"vtbbschfn@lckixfujf.com","firstname":"lqbsyvl","lastname":"qzwfcsash","id":159122},{"username":"evagcfcqdrt","email":"bmqquglfh@gnjikshdp.com","firstname":"qrrvqfl","lastname":"cufblqqtd","id":819427},{"username":"sniabboudmy","email":"sutmfwrhr@okebhflgh.com","firstname":"bgenhsh","lastname":"yderwvzwu","id":707699},{"username":"sifstaypiav","email":"hbmkrxczn@wcfojnoxg.com","firstname":"bwpsixt","lastname":"xhqiujjzv","id":900721},{"username":"qtshkhzngoc","email":"frqebwcco@vtlykuwqw.com","firstname":"cuqekqp","lastname":"mbvyoiegh","id":336722},{"username":"unpvaqfvlaz","email":"lagleoyly@xwvmtykzj.com","firstname":"ksgzglo","lastname":"ajprfeptt","id":202730},{"username":"efvvorfzicf","email":"nafeocmlo@lglevredx.com","firstname":"uuxtpui","lastname":"cikpoaqif","id":885925},{"username":"akvnsgmqhnr","email":"bvcpmqwgp@hthkwxdtd.com","firstname":"afxiaei","lastname":"itjirbghd","id":248555},{"username":"vkhzqjmzqxl","email":"loybsrnlh@ajjbovwki.com","firstname":"oyhmrgu","lastname":"yynuzskas","id":502227},{"username":"suvdmtykpfc","email":"jxhwgqryg@fvlryraqt.com","firstname":"zpatimc","lastname":"yalilktvi","id":466551},{"username":"wfdmacwblgb","email":"qqeiopomo@edxyvucgm.com","firstname":"ppppyeq","lastname":"bbigngmbb","id":492976},{"username":"sppornjgdea","email":"gxcpevtxd@xkjevvfju.com","firstname":"gadqcmi","lastname":"ipxjtgnlg","id":86855},{"username":"tlztdmqmbdl","email":"anapxqulq@dapqmrbce.com","firstname":"msubzkh","lastname":"shqhqulhc","id":203486},{"username":"kjumgryocef","email":"rjnqskibz@oiynnsepx.com","firstname":"rhhbflt","lastname":"pbkhcdere","id":378199},{"username":"auqmurvzpcj","email":"csukzqsxt@amdvhjgnx.com","firstname":"jhvhrcv","lastname":"trcxvfbnk","id":90629},{"username":"lbgppnnimyb","email":"otdyszrie@qgapnhekl.com","firstname":"ecutuep","lastname":"ueevhrfvk","id":651639}],"total_count":748,"paginator_options":{"pageParameterName":"page","sortFieldParameterName":"sort","sortDirectionParameterName":"direction","filterFieldParameterName":"filterField","filterValueParameterName":"filterValue","distinct":true,"sortFieldWhitelist":["u.firstname","u.lastname","u.email","g.name","u.id"]},"custom_parameters":[],"route":"api_users_all","params":{"apikey":"an_api_key","timestamp":"1370534334","hash":"11a68a1bb9e23c681438efb714c9ad4d"},"page_range":5,"template":"DYBShowcaseBundle:Common:pagination.html.twig","sortable_template":"DYBShowcaseBundle:Common:sortable.html.twig","filtration_template":"KnpPaginatorBundle:Pagination:filtration.html.twig","extra_view_params":[]},"total":748,"next":"/api/v1/users?page=2"}'
+    http_version: 
+  recorded_at: Thu, 06 Jun 2013 15:58:54 GMT
+recorded_with: VCR 2.5.0
