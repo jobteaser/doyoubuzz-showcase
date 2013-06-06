@@ -1,4 +1,5 @@
 require 'httparty'
+require 'hashie/mash'
 
 module Doyoubuzz
   class Showcase
@@ -35,7 +36,7 @@ module Doyoubuzz
         raise HTTParty::ResponseError.new(res.response)
       end
 
-      return res
+      return Hashie::Mash.new(res)
     end
 
 

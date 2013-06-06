@@ -51,6 +51,7 @@ describe Doyoubuzz::Showcase do
 
         res.keys.should == ["users", "total", "next"]
         res["users"]["items"].first.keys.should == ["username", "email", "firstname", "lastname", "id"]
+        res.users.items.first.username.should == "lvrmterjwea"
       end
     end
 
