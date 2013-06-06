@@ -1,12 +1,19 @@
 # Doyoubuzz::Showcase
 
-TODO: Write a gem description
+## Description
+
+The `doyoubuzz-showcase` gem is a thin ruby wrapper for the DoYouBuzz Showcase API. Based around the HTTParty gem, it handles the authorization and HTTP calls, and wraps the results in a Hashie::Mash for a simpler usage.
+
+## Requirements
+
+- httparty
+- hashie
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'doyoubuzz-showcase'
+    gem 'doyoubuzz-showcase', :github => 'git://github.com/MrRuru/doyoubuzz-showcase.git'
 
 And then execute:
 
@@ -18,7 +25,31 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+### Authentication
+
+    # Authenticate with your API credentials
+    client = Doyoubuzz::Showcase.new('your_api_key', 'your_api_secret')
+
+### Querying
+
+    # Getting a results collection
+    response = client.get '/users'
+
+    puts response.users.items.first.email
+    # $ john.doe@domain.com
+
+### Queries with parameters
+
+    # Get another page
+    response = client.get '/users', :page => 2
+
+
+### HTTP Verbs support
+
+    # Associate a tag to a user
+    response = client.put '/users/12345/associateTags', :tags => [12, 13, 14]
+
 
 ## Contributing
 
