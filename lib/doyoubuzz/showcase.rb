@@ -26,7 +26,7 @@ module Doyoubuzz
 
     # The actual api call
     def call_api(verb, method, params)
-      res = self.class.send(verb, method, :query => process_params(params))
+      res = self.class.send(verb, method, build_request_parameters(params, verb))
       return process_response(res)
     end
 
@@ -45,10 +45,23 @@ module Doyoubuzz
       end
     end
 
+    # Build the request parameters
+    def build_request_parameters(params, verb)
+      additional_parameters = {:apikey => @api_key, :timestamp => Time.now.to_i}
+
+      # GET, DELETE requests : the parameters are in the request query
+      if [:get, :delete].include? verb
+        return {:query => sign_params(params.merge additional_parameters)}
+
+      # Otherwise, they are in the body
+      else
+        return {:body => params, :query => sign_params(additional_parameters)}
+      end
+    end
+
 
     # The arguments processing and signing
-    def process_params(params)
-      params.merge!({:apikey => @api_key, :timestamp => Time.now.to_i})
+    def sign_params(params)
       params[:hash] = compute_signature(params)
       params
     end

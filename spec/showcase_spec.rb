@@ -17,7 +17,6 @@ describe Doyoubuzz::Showcase do
 
   describe '#call' do
     let(:showcase){ Doyoubuzz::Showcase.new(api_key, api_secret) }
-    let(:method){ '/a_method' }
     let(:arguments){ {:foo => 'bar', :zab => 'baz'} }
     let(:timestamp){ 1370534334 }
 
@@ -36,6 +35,13 @@ describe Doyoubuzz::Showcase do
       showcase.class.should_receive(:get).with("/path", {:query => {:foo => "bar", :zab => "baz", :apikey => "an_api_key", :timestamp => timestamp, :hash => "757b04a866f1d02f077471589341ff7a"}})
 
       showcase.get('/path', arguments)
+    end
+
+    it "should put the parameters in the body for PUT requests" do
+      showcase.stub!(:process_response) # We only want to check the sent parameters here
+      showcase.class.should_receive(:put).with("/path", {:query => {:apikey => "an_api_key", :timestamp => timestamp, :hash => "11a68a1bb9e23c681438efb714c9ad4d"}, :body => {:foo => "bar", :zab => "baz"}})
+
+      showcase.put('/path', arguments)
     end
 
     it "should handle HTTP verbs" do
