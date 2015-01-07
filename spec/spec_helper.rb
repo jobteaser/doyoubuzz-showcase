@@ -3,6 +3,9 @@ require 'bundler/setup'
 
 require 'vcr'
 
+require 'coveralls'
+Coveralls.wear!
+
 VCR.configure do |conf|
   conf.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   conf.hook_into :webmock
