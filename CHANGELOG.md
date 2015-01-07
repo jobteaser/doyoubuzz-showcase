@@ -6,3 +6,4 @@
 
 ### CHANGELOG
  * [DEV] Update rspec to v3
+ * Add Travis and Coveralls integration
