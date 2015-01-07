@@ -23,7 +23,7 @@ describe Doyoubuzz::Showcase do
     # The timestamp is important in the request generation and the VCR handling. Here it is set at a fixed date
     before(:each) do
       time = Time.at(timestamp)
-      Time.stub!(:now).and_return time
+      allow(Time).to receive(:now).and_return time
     end
 
     it "should compute a valid signature" do
@@ -31,14 +31,14 @@ describe Doyoubuzz::Showcase do
     end
 
     it "should generate a valid signed api call" do
-      showcase.stub!(:process_response) # We only want to check the sent parameters here
+      allow(showcase).to receive(:process_response) # We only want to check the sent parameters here
       showcase.class.should_receive(:get).with("/path", {:query => {:foo => "bar", :zab => "baz", :apikey => "an_api_key", :timestamp => timestamp, :hash => "757b04a866f1d02f077471589341ff7a"}})
 
       showcase.get('/path', arguments)
     end
 
     it "should put the parameters in the body for PUT requests" do
-      showcase.stub!(:process_response) # We only want to check the sent parameters here
+      allow(showcase).to receive(:process_response) # We only want to check the sent parameters here
       showcase.class.should_receive(:put).with("/path", {:query => {:apikey => "an_api_key", :timestamp => timestamp, :hash => "11a68a1bb9e23c681438efb714c9ad4d"}, :body => {:foo => "bar", :zab => "baz"}})
 
       showcase.put('/path', arguments)
@@ -76,7 +76,7 @@ describe Doyoubuzz::Showcase do
       VCR.use_cassette("failed_call") do
         expect{ res = showcase.get('/users') }.to raise_error do |error|
           error.should be_a(HTTParty::ResponseError)
-          error.response.should == Net::HTTPForbidden
+          error.response.class.should == Net::HTTPForbidden
         end
       end
     end
