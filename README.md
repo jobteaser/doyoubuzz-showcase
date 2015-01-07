@@ -1,3 +1,6 @@
+
+[![Gem Version](https://badge.fury.io/rb/doyoubuzz-showcase.svg)](http://badge.fury.io/rb/doyoubuzz-showcase) [![Build Status](https://api.travis-ci.org/mru2/doyoubuzz-showcase.svg)](https://travis-ci.org/mru2/doyoubuzz-showcase) [![Coverage Status](https://coveralls.io/repos/mru2/doyoubuzz-showcase/badge.png?branch=master)](https://coveralls.io/r/mru2/doyoubuzz-showcase?branch=master) [![Code Climate](https://codeclimate.com/github/mru2/doyoubuzz-showcase/badges/gpa.svg)](https://codeclimate.com/github/mru2/doyoubuzz-showcase)
+
 # Doyoubuzz::Showcase
 
 ## Description
