@@ -1,6 +1,8 @@
 require 'httparty'
 require 'hashie/mash'
 
+require 'doyoubuzz/showcase/error'
+
 module Doyoubuzz
   class Showcase
 
@@ -33,7 +35,7 @@ module Doyoubuzz
     # Process the HTTParty response, checking for errors
     def process_response(res)
       if !res.success?
-        raise HTTParty::ResponseError.new(res.response)
+        raise Error.new(res.code, res.body)
       end
 
       if res.is_a? Hash

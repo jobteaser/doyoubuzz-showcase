@@ -75,8 +75,10 @@ describe Doyoubuzz::Showcase do
     it "should raise an exception on a failed call" do
       VCR.use_cassette("failed_call") do
         expect{ res = showcase.get('/users') }.to raise_error do |error|
-          error.should be_a(HTTParty::ResponseError)
-          error.response.class.should == Net::HTTPForbidden
+          error.should be_a(Doyoubuzz::Showcase::Error)
+          error.status.should == 403
+          error.message.should == "Forbidden"
+          error.inspect.should == "#<Doyoubuzz::Showcase::Error 403: Forbidden>"
         end
       end
     end
