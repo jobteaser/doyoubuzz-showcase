@@ -22,6 +22,19 @@ module Doyoubuzz
       end
     end
 
+    # SSO redirection
+    def sso_redirect_url(company_name, timestamp, user_attributes)
+      # Check mandatory attributes are given
+      missing_attributes = %i(email external_id firstname lastname).reject{|key| user_attributes[key]}
+
+      if missing_attributes.length > 0
+        raise ArgumentError, "Missing mandatory attributes for SSO : #{missing_attributes.join(', ')}"
+      end      
+
+      params = sign_params(user_attributes.merge(timestamp: timestamp))
+
+      "http://showcase.doyoubuzz.com/p/fr/#{company_name}/sso?#{URI.encode_www_form(params)}"
+    end
 
 
     private

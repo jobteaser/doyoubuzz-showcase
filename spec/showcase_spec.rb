@@ -6,6 +6,7 @@ describe Doyoubuzz::Showcase do
 
   let(:api_key){ 'an_api_key' }
   let(:api_secret){ 'an_api_secret' }
+  let(:showcase){ Doyoubuzz::Showcase.new(api_key, api_secret) }
 
   describe '#new' do
     it 'should require an api key and secret key' do
@@ -16,7 +17,6 @@ describe Doyoubuzz::Showcase do
   end
 
   describe '#call' do
-    let(:showcase){ Doyoubuzz::Showcase.new(api_key, api_secret) }
     let(:arguments){ {:foo => 'bar', :zab => 'baz'} }
     let(:timestamp){ 1370534334 }
 
@@ -81,6 +81,37 @@ describe Doyoubuzz::Showcase do
           error.inspect.should == "#<Doyoubuzz::Showcase::Error 403: Forbidden>"
         end
       end
+    end
+
+  end
+
+
+  describe '#sso_redirect_url' do
+
+    let(:company_name){ 'my_company' }
+    let(:timestamp){ 1370534334 }
+    let(:user_attributes){ 
+      {
+        email: 'email@host.tld',
+        firstname: 'John',
+        lastname: 'Doe',
+        external_id: 12345
+      }
+    }
+
+    it "should verify all the mandatory user attributes are given" do
+
+      user_attributes.keys.each do |mandatory_key|
+
+        incomplete_attributes = user_attributes.dup.tap{|attrs|attrs.delete mandatory_key}
+        expect { showcase.sso_redirect_url(company_name, timestamp, incomplete_attributes) }.to raise_error ArgumentError, "Missing mandatory attributes for SSO : #{mandatory_key}"
+
+      end
+
+    end
+
+    it "should compute the right url" do
+      showcase.sso_redirect_url(company_name, timestamp, user_attributes).should == 'http://showcase.doyoubuzz.com/p/fr/my_company/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=d18df99479adddac18c20f99f16d8c54'
     end
 
   end
