@@ -27,7 +27,7 @@ describe Doyoubuzz::Showcase do
     end
 
     it "should compute a valid signature" do
-      Doyoubuzz::Showcase.new('IuQSDLKQLSDK344590Li987', 'IuJyt42BnUiOlPM8FvB67tG').send(:compute_signature, {:apikey => 'IuQSDLKQLSDK344590Li987', :timestamp => timestamp}).should == '1dd33466d71275d06c9e17e18235c9f0'
+      Doyoubuzz::Showcase.new('IuQSDLKQLSDK344590Li987', 'IuJyt42BnUiOlPM8FvB67tG').send(:compute_signature, {:apikey => 'IuQSDLKQLSDK344590Li987', :timestamp => timestamp}, 'IuJyt42BnUiOlPM8FvB67tG').should == '1dd33466d71275d06c9e17e18235c9f0'
     end
 
     it "should generate a valid signed api call" do
@@ -98,20 +98,21 @@ describe Doyoubuzz::Showcase do
         external_id: 12345
       }
     }
+    let(:sso_key){ 'vpsdihgfdso' }
 
     it "should verify all the mandatory user attributes are given" do
 
       user_attributes.keys.each do |mandatory_key|
 
         incomplete_attributes = user_attributes.dup.tap{|attrs|attrs.delete mandatory_key}
-        expect { showcase.sso_redirect_url(company_name, timestamp, incomplete_attributes) }.to raise_error ArgumentError, "Missing mandatory attributes for SSO : #{mandatory_key}"
+        expect { showcase.sso_redirect_url(company_name, timestamp, sso_key, incomplete_attributes) }.to raise_error ArgumentError, "Missing mandatory attributes for SSO : #{mandatory_key}"
 
       end
 
     end
 
     it "should compute the right url" do
-      showcase.sso_redirect_url(company_name, timestamp, user_attributes).should == 'http://showcase.doyoubuzz.com/p/fr/my_company/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=d18df99479adddac18c20f99f16d8c54'
+      showcase.sso_redirect_url(company_name, timestamp, sso_key, user_attributes).should == 'http://showcase.doyoubuzz.com/p/fr/my_company/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=d6bbfc7ead803a3578887d6429d60047'
     end
 
   end

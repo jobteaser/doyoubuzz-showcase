@@ -23,17 +23,17 @@ module Doyoubuzz
     end
 
     # SSO redirection
-    def sso_redirect_url(company_name, timestamp, user_attributes)
+    def sso_redirect_url(application_name, timestamp, sso_key, user_attributes)
       # Check mandatory attributes are given
-      missing_attributes = %i(email external_id firstname lastname).reject{|key| user_attributes[key]}
+      missing_attributes = [:email, :external_id, :firstname, :lastname].reject{|key| user_attributes[key]}
 
       if missing_attributes.length > 0
         raise ArgumentError, "Missing mandatory attributes for SSO : #{missing_attributes.join(', ')}"
       end      
 
-      params = sign_params(user_attributes.merge(timestamp: timestamp))
+      params = sign_params(user_attributes.merge(timestamp: timestamp), sso_key)
 
-      "http://showcase.doyoubuzz.com/p/fr/#{company_name}/sso?#{URI.encode_www_form(params)}"
+      "http://showcase.doyoubuzz.com/p/fr/#{application_name}/sso?#{URI.encode_www_form(params)}"
     end
 
 
@@ -76,8 +76,9 @@ module Doyoubuzz
 
 
     # The arguments processing and signing
-    def sign_params(params)
-      params[:hash] = compute_signature(params)
+    def sign_params(params, secret_key = nil)
+      secret_key ||= @api_secret
+      params[:hash] = compute_signature(params, secret_key)
       params
     end
 
@@ -88,10 +89,10 @@ module Doyoubuzz
     # - Append the current timestamp
     # - Append the api secret
     # - MD5 the resulting string
-    def compute_signature(params)
+    def compute_signature(params, secret_key)
       ordered_params_values = params.sort.map{|k,v|v}
       concatenated_params_string = ordered_params_values.join
-      concatenated_params_string << @api_secret
+      concatenated_params_string << secret_key
 
       return Digest::MD5.hexdigest(concatenated_params_string)
     end
