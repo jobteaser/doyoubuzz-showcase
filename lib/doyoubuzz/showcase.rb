@@ -29,9 +29,9 @@ module Doyoubuzz
 
       if missing_attributes.length > 0
         raise ArgumentError, "Missing mandatory attributes for SSO : #{missing_attributes.join(', ')}"
-      end      
+      end
 
-      params = sign_params(user_attributes.merge(timestamp: timestamp), sso_key)
+      params = sign_sso_params(user_attributes.merge(timestamp: timestamp), sso_key)
 
       "http://showcase.doyoubuzz.com/p/fr/#{application_name}/sso?#{URI.encode_www_form(params)}"
     end
@@ -66,36 +66,36 @@ module Doyoubuzz
 
       # GET, DELETE requests : the parameters are in the request query
       if [:get, :delete].include? verb
-        return {:query => sign_params(params.merge additional_parameters)}
+        return {:query => sign_api_params(params.merge additional_parameters)}
 
       # Otherwise, they are in the body
       else
-        return {:body => params, :query => sign_params(additional_parameters)}
+        return {:body => params, :query => sign_api_params(additional_parameters)}
       end
     end
 
 
     # The arguments processing and signing
-    def sign_params(params, secret_key = nil)
-      secret_key ||= @api_secret
-      params[:hash] = compute_signature(params, secret_key)
-      params
-    end
-
-    # Computing the parameters signature hash
-    # Algorithm :
-    # - Order parameters by key
-    # - Concatenate their values
-    # - Append the current timestamp
-    # - Append the api secret
-    # - MD5 the resulting string
-    def compute_signature(params, secret_key)
+    def sign_api_params(params)
       ordered_params_values = params.sort.map{|k,v|v}
       concatenated_params_string = ordered_params_values.join
       concatenated_params_string << secret_key
 
-      return Digest::MD5.hexdigest(concatenated_params_string)
+      hash = Digest::MD5.hexdigest(concatenated_params_string)
+      params.merge(hash: hash)
     end
+
+    # Different ordering
+    def sign_sso_params(params, sso_key)
+      # Custom ordering
+      tosign = params.values_at(:email, :firstname, :lastname, :external_id, :"group[]", :user_type, :timestamp).compact.join
+      tosign += sso_key
+
+      hash = Digest::MD5.hexdigest(tosign)
+
+      params.merge(hash: hash)
+    end
+
 
   end
 end
