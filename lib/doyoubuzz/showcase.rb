@@ -79,7 +79,7 @@ module Doyoubuzz
     def sign_api_params(params)
       ordered_params_values = params.sort.map{|k,v|v}
       concatenated_params_string = ordered_params_values.join
-      concatenated_params_string << secret_key
+      concatenated_params_string << @api_secret
 
       hash = Digest::MD5.hexdigest(concatenated_params_string)
       params.merge(hash: hash)

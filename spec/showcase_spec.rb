@@ -26,10 +26,6 @@ describe Doyoubuzz::Showcase do
       allow(Time).to receive(:now).and_return time
     end
 
-    it "should compute a valid signature" do
-      Doyoubuzz::Showcase.new('IuQSDLKQLSDK344590Li987', 'IuJyt42BnUiOlPM8FvB67tG').send(:compute_signature, {:apikey => 'IuQSDLKQLSDK344590Li987', :timestamp => timestamp}, 'IuJyt42BnUiOlPM8FvB67tG').should == '1dd33466d71275d06c9e17e18235c9f0'
-    end
-
     it "should generate a valid signed api call" do
       allow(showcase).to receive(:process_response) # We only want to check the sent parameters here
       showcase.class.should_receive(:get).with("/path", {:query => {:foo => "bar", :zab => "baz", :apikey => "an_api_key", :timestamp => timestamp, :hash => "757b04a866f1d02f077471589341ff7a"}})
@@ -112,7 +108,7 @@ describe Doyoubuzz::Showcase do
     end
 
     it "should compute the right url" do
-      showcase.sso_redirect_url(company_name, timestamp, sso_key, user_attributes).should == 'http://showcase.doyoubuzz.com/p/fr/my_company/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=d6bbfc7ead803a3578887d6429d60047'
+      showcase.sso_redirect_url(company_name, timestamp, sso_key, user_attributes).should == 'http://showcase.doyoubuzz.com/p/fr/my_company/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=94a0adad0a9bafdf511326cae3bf7626'
     end
 
   end
