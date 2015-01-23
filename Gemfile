@@ -8,5 +8,7 @@ gem 'vcr',      '~> 2.9'
 # CI
 gem 'coveralls', :require => false
 
+gem 'zelda-formatter'
+
 # Specify the gem's dependencies in doyoubuzz-showcase.gemspec
 gemspec
