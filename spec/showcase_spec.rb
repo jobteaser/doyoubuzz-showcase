@@ -26,7 +26,7 @@ describe Doyoubuzz::Showcase do
       allow(Time).to receive(:now).and_return time
     end
 
-    it 'should generate a valid signed api call' do
+    it 'generates a valid signed api call' do
       # We only want to check the sent parameters here
       allow(showcase).to receive(:process_response)
       expect(showcase.class).to receive(:get).with(
@@ -43,7 +43,7 @@ describe Doyoubuzz::Showcase do
       showcase.get('/path', arguments)
     end
 
-    it 'should put the parameters in the body for PUT requests' do
+    it 'puts the parameters in the body for PUT requests' do
       # We only want to check the sent parameters here
       allow(showcase).to receive(:process_response)
       expect(showcase.class).to receive(:put).with(
@@ -78,12 +78,12 @@ describe Doyoubuzz::Showcase do
       end
     end
 
-    it 'should handle array responses' do
+    it 'handles array responses' do
       VCR.use_cassette('good_call') do
         res = showcase.get('/tags')
 
-        res.should be_a Array
-        res.first.should be_a Hashie::Mash
+        expect(res).to be_an(Array)
+        expect(res.first).to be_a(Hashie::Mash)
       end
     end
 
@@ -111,7 +111,7 @@ describe Doyoubuzz::Showcase do
     end
     let(:sso_key) { 'vpsdihgfdso' }
 
-    it 'should verify all the mandatory user attributes are given' do
+    it 'verifies all the mandatory user attributes are given' do
       user_attributes.keys.each do |mandatory_key|
         incomplete_attributes = user_attributes.reject { |k, _| k == mandatory_key }
 
@@ -129,7 +129,7 @@ describe Doyoubuzz::Showcase do
       end
     end
 
-    it 'should compute the right url' do
+    it 'computes the right url' do
       expect(
         showcase.sso_redirect_url(
           company_name,
