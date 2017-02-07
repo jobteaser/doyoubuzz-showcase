@@ -1,3 +1,4 @@
+require 'logger'
 require 'httparty'
 require 'hashie/mash'
 
@@ -5,6 +6,8 @@ require 'doyoubuzz/showcase/error'
 
 module Doyoubuzz
   class Showcase
+
+    Hashie.logger = ::Logger.new(STDOUT)
 
     include HTTParty
     base_uri 'http://showcase.doyoubuzz.com/api/v1'
@@ -51,13 +54,17 @@ module Doyoubuzz
         raise Error.new(res.code, res.body)
       end
 
-      if res.is_a? Hash
-        return Hashie::Mash.new(res)
-      elsif res.is_a? Array
-        return res.map{|item| Hashie::Mash.new(item)}
-      else
-        return res
+      object = res.parsed_response
+
+      case object
+      when Hash then mash(object)
+      when Array then object.map(&method(:mash))
+      else object
       end
+    end
+
+    def mash(object)
+      Hashie::Mash.new(object)
     end
 
     # Build the request parameters
