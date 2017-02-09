@@ -6,6 +6,7 @@ require 'doyoubuzz/showcase/error'
 
 module Doyoubuzz
   class Showcase
+
     include HTTParty
     base_uri 'http://showcase.doyoubuzz.com/api/v1'
 
@@ -24,30 +25,7 @@ module Doyoubuzz
       end
     end
 
-    # SSO redirection
-    def sso_redirect_url(application, timestamp, sso_key, user_attributes)
-      enforce_sso_attributes(user_attributes)
-
-      params = sign_sso_params(
-        user_attributes.merge(timestamp: timestamp),
-        sso_key
-      )
-      encoded_params = URI.encode_www_form(params)
-
-      "http://showcase.doyoubuzz.com/p/fr/#{application}/sso?#{encoded_params}"
-    end
-
     private
-
-    def enforce_sso_attributes(attributes)
-      required = %i(email external_id firstname lastname)
-      missing = required.reject { |key| attributes[key] }
-
-      raise(
-        ArgumentError,
-        "Missing mandatory attributes for SSO : #{missing.join(', ')}"
-      ) if missing.any?
-    end
 
     # The actual api call
     def call_api(verb, method, params)
@@ -100,20 +78,5 @@ module Doyoubuzz
       params.merge(hash: hash)
     end
 
-    # Different ordering
-    def sign_sso_params(params, sso_key)
-      # Custom ordering
-      tosign = params.values_at(
-        :email,
-        :firstname,
-        :lastname,
-        :external_id,
-        :"group[]",
-        :user_type,
-        :timestamp
-      ).compact.join + sso_key
-
-      params.merge(hash: Digest::MD5.hexdigest(tosign))
-    end
   end
 end

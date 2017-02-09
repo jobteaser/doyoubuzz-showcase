@@ -2,7 +2,7 @@ require 'spec_helper'
 
 require 'doyoubuzz/showcase'
 
-describe Doyoubuzz::Showcase do
+RSpec.describe Doyoubuzz::Showcase do
   let(:api_key) { 'an_api_key' }
   let(:api_secret) { 'an_api_secret' }
   let(:showcase) { Doyoubuzz::Showcase.new(api_key, api_secret) }
@@ -95,49 +95,6 @@ describe Doyoubuzz::Showcase do
           expect(error.message).to eq('Forbidden')
         end
       end
-    end
-  end
-
-  describe '#sso_redirect_url' do
-    let(:company_name) { 'my_company' }
-    let(:timestamp) { 1370534334 }
-    let(:user_attributes) do
-      {
-        email: 'email@host.tld',
-        firstname: 'John',
-        lastname: 'Doe',
-        external_id: 12345
-      }
-    end
-    let(:sso_key) { 'vpsdihgfdso' }
-
-    it 'verifies all the mandatory user attributes are given' do
-      user_attributes.keys.each do |mandatory_key|
-        incomplete_attributes = user_attributes.reject { |k, _| k == mandatory_key }
-
-        expect do
-          showcase.sso_redirect_url(
-            company_name,
-            timestamp,
-            sso_key,
-            incomplete_attributes
-          )
-        end.to raise_error(
-          ArgumentError,
-          "Missing mandatory attributes for SSO : #{mandatory_key}"
-        )
-      end
-    end
-
-    it 'computes the right url' do
-      expect(
-        showcase.sso_redirect_url(
-          company_name,
-          timestamp,
-          sso_key,
-          user_attributes
-        )
-      ).to eq('http://showcase.doyoubuzz.com/p/fr/my_company/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=94a0adad0a9bafdf511326cae3bf7626')
     end
   end
 end
