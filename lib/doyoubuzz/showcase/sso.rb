@@ -9,13 +9,13 @@ module Doyoubuzz
         @key = key
       end
 
-      def redirect_url(timestamp:, user_attributes:)
+      def redirect_url(locale: 'fr', timestamp:, user_attributes:)
         enforce_sso_attributes(user_attributes)
 
         params = sign_params(user_attributes.merge(timestamp: timestamp))
         encoded_params = URI.encode_www_form(params)
 
-        "#{BASE_URL}/p/fr/#{application}/sso?#{encoded_params}"
+        "#{BASE_URL}/p/#{locale}/#{application}/sso?#{encoded_params}"
       end
 
       private

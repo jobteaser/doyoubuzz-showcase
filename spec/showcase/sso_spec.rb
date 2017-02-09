@@ -50,5 +50,15 @@ RSpec.describe Doyoubuzz::Showcase::SSO, type: :type do
         )
       ).to eq('http://showcase.doyoubuzz.com/p/fr/example_application/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=94a0adad0a9bafdf511326cae3bf7626')
     end
+
+    it 'handles locales properly' do
+      expect(
+        subject.redirect_url(
+          locale: 'en',
+          timestamp: timestamp,
+          user_attributes: user_attributes
+        )
+      ).to eq('http://showcase.doyoubuzz.com/p/en/example_application/sso?email=email%40host.tld&firstname=John&lastname=Doe&external_id=12345&timestamp=1370534334&hash=94a0adad0a9bafdf511326cae3bf7626')
+    end
   end
 end
