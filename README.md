@@ -11,6 +11,7 @@ The `doyoubuzz-showcase` gem is a thin ruby wrapper for the DoYouBuzz Showcase A
 
 - httparty
 - hashie
+- ruby >= 2.1.0
 
 ## Installation
 
