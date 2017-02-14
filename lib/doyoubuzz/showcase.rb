@@ -1,4 +1,3 @@
-require 'logger'
 require 'httparty'
 require 'hashie/mash'
 
@@ -9,8 +8,6 @@ module Doyoubuzz
 
     include HTTParty
     base_uri 'http://showcase.doyoubuzz.com/api/v1'
-
-    Hashie.logger = ::Logger.new(STDOUT)
 
     # Construction with mandatory api key and api secret
     def initialize(api_key, api_secret)
